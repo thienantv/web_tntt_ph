@@ -1,0 +1,263 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; }
+
+/* ================= FIX TRÀN VIỀN TUYỆT ĐỐI ================= */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important; 
+}
+
+/* ================= XÓA NỀN ẢNH VÀ ĐỒNG BỘ NỀN TRANG CHỦ ================= */
+body { 
+    font-family: 'Nunito', sans-serif; 
+    background: linear-gradient(135deg, #e0f2fe 0%, #f0fdfa 50%, #e0e7ff 100%); 
+    color: #1e293b; 
+    overflow-x: hidden; 
+    min-height: 100vh;
+}
+
+/* ================= THIẾT KẾ LẠI PHÂN TRANG (PAGINATION) ================= */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 15px;
+    color: #0d47a1;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(13, 71, 161, 0.2);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    outline: none;
+}
+
+.page-btn:hover:not(.disabled) {
+    transform: translateY(-3px);
+    background: #ffffff;
+    color: #0052d4;
+    border-color: #0052d4;
+    box-shadow: 0 8px 20px rgba(0, 82, 212, 0.15);
+}
+
+.page-btn.active {
+    background: linear-gradient(135deg, #0d47a1, #1565c0);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(13, 71, 161, 0.35);
+    cursor: default;
+    transform: scale(1.05);
+}
+
+.page-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #e2e8f0;
+    color: #94a3b8;
+    border-color: #cbd5e1;
+    box-shadow: none;
+}
+
+/* ================= GIAO DIỆN THANH MENU ================= */
+.cls-topbar {
+    background: linear-gradient(to right, #0d47a1, #1565c0);
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out; 
+}
+
+.header-hidden {
+    transform: translateY(-100%);
+}
+
+.topbar-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.6rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cls-brand { 
+    display: flex; align-items: center; gap: 0.8rem; color: #fff; text-decoration: none; 
+    font-weight: 800; font-size: 1.15rem; text-transform: uppercase; font-family: 'Nunito', sans-serif;
+}
+.cls-brand img { width: 48px; height: 48px; border-radius: 50%; object-fit: contain; background: #fff; padding: 2px; }
+.cls-brand:hover { color: #fff; }
+
+.cls-nav-menu { display: flex; align-items: center; gap: 1.5rem; }
+.cls-nav-link {
+    color: #ffffff; text-decoration: none; font-weight: 600; font-size: 1rem;
+    padding: 0.5rem 1.2rem; border-radius: 999px; transition: all 0.2s ease;
+}
+.cls-nav-link:hover, .cls-nav-link.active { background: rgba(255, 255, 255, 0.25); color: #fff; }
+
+.btn-login-nav {
+    color: #ffffff; text-decoration: none; font-weight: 700; font-size: 0.95rem;
+    padding: 0.5rem 1.2rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 6px; transition: all 0.3s ease;
+}
+.btn-login-nav:hover { background: rgba(255, 255, 255, 0.3); border-color: #fff; color: #fff; }
+
+.mobile-toggle-btn {
+    display: none; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff; font-size: 1.2rem; width: 40px; height: 40px; border-radius: 8px; cursor: pointer; transition: 0.2s ease;
+}
+.mobile-toggle-btn:hover { background: rgba(255, 255, 255, 0.25); }
+.menu-overlay { display: none; }
+
+@media (max-width: 991px) {
+    .cls-topbar {
+        width: 100vw !important; max-width: 100% !important; margin: 0 !important;
+        border-radius: 0 !important; top: 0 !important; left: 0 !important; right: 0 !important;
+    }
+    .topbar-container { padding: 0.6rem 1rem; }
+    .cls-brand span { font-size: 1rem; white-space: nowrap; }
+    .cls-brand img { width: 40px; height: 40px; }
+    .mobile-toggle-btn { display: flex; align-items: center; justify-content: center; }
+
+    .cls-nav-menu {
+        position: absolute; top: 100% !important; left: 0 !important; width: 100% !important;
+        background: linear-gradient(to bottom, #1565c0, #1976d2); border-radius: 0 0 16px 16px !important;
+        flex-direction: column; padding: 1.5rem; gap: 1rem; box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1001; transform: none !important; margin: 0 !important;
+    }
+    .cls-nav-menu.show { opacity: 1; visibility: visible; }
+    .cls-nav-link, .btn-login-nav { width: 100%; text-align: center; justify-content: center; padding: 12px; font-size: 1.1rem; }
+
+    .menu-overlay {
+        display: block; position: absolute !important; top: 100% !important; left: 0 !important;
+        width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+        z-index: 999 !important; opacity: 0; visibility: hidden; transition: 0.3s;
+    }
+    .menu-overlay.show { opacity: 1; visibility: visible; }
+    
+    .cls-brand, .mobile-toggle-btn { position: relative !important; z-index: 1005 !important; }
+}
+
+/* ================= TRANG TIN TỨC CHÍNH ================= */
+.main-container {
+    max-width: 1200px;
+    margin: 90px auto 40px; /* Căn cách đỉnh 90px để không bị Menu đè lên */
+    padding: 0 16px;
+}
+
+/* AUTH BAR */
+.auth-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); padding: 10px 18px; border-radius: 14px; margin-bottom: 20px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); flex-wrap: wrap; gap: 10px; }
+.user-status { font-size: 14px; color: #333; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.user-avatar-mini { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #0D47A1; }
+.role-tag { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; color: #fff; }
+.role-admin { background: #d32f2f; } .role-leader { background: #e65100; } .role-viewer { background: #1976d2; }
+.btn-auth-action { background: #0D47A1; color: #fff; border: none; padding: 7px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+.btn-auth-action:hover { background: #1565C0; } .btn-logout { background: #546e7a; }
+
+/* HEADER BANNER */
+.dashboard-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px; padding: 22px 26px; margin-bottom: 30px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;}
+.dashboard-header h2 { color: #0D47A1; font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 10px; margin: 0;}
+.dashboard-header p { color: #64748b; font-size: 14px; margin-top: 4px; margin-bottom: 0;}
+.btn-dang-bai { background: linear-gradient(135deg, #059669, #34d399); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3); transition: 0.2s; }
+.btn-dang-bai:hover { transform: translateY(-2px); filter: brightness(1.1); color: white;}
+
+/* BÀI VIẾT (NEWS CARDS) */
+.news-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); transition: all 0.3s ease; display: flex; flex-direction: column; height: 100%; border: 1px solid #e2e8f0; cursor: pointer;}
+.news-card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,114,255,0.15); border-color: #93c5fd; }
+.news-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 3px solid #f1f5f9;}
+.news-body { padding: 22px; flex-grow: 1; display: flex; flex-direction: column; }
+.news-title { font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 8px; font-family: 'Nunito', sans-serif; line-height: 1.4;}
+.news-date { font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px; font-weight: 600; display: flex; align-items: center; gap: 6px;}
+.news-stats { font-size: 12px; color: #64748b; margin-bottom: 12px; font-weight: 700; }
+.news-excerpt { color: #475569; font-size: 0.95rem; line-height: 1.6; flex-grow: 1; margin-bottom: 20px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+.news-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #cbd5e1; padding-top: 15px; }
+.btn-readmore { background: transparent; color: #0ea5e9; font-weight: 800; border: none; padding: 0; font-size: 0.9rem;}
+
+.news-footer-actions { display: flex; gap: 8px; }
+.btn-edit-news { color: #0284c7; background: rgba(2, 132, 199, 0.1); padding: 6px 12px; border-radius: 8px; border: none; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s;}
+.btn-edit-news:hover { background: #0284c7; color: white; }
+.btn-delete-news { color: #ef4444; background: rgba(239, 68, 68, 0.1); padding: 6px 12px; border-radius: 8px; border: none; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: 0.2s;}
+.btn-delete-news:hover { background: #ef4444; color: white; }
+
+/* MODAL CHUNG */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 25, 47, 0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; visibility: hidden; transition: 0.3s; padding: 16px; }
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-card { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.3); width: 100%; max-width: 650px; border-radius: 28px; padding: 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.5); color: #f8fafc; }
+
+/* GIAO DIỆN MODAL XEM CHI TIẾT & DANH SÁCH LIKE */
+.modal-card-light { background: #ffffff; color: #1e293b; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: none; max-width: 820px; max-height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; border-radius: 24px; }
+.form-control-custom { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; font-size: 14.5px; outline: none; margin-bottom: 16px; font-weight: 500; }
+.form-control-custom:focus { border-color: #38bdf8; background: rgba(255,255,255,0.12); }
+textarea.form-control-custom { min-height: 150px; resize: vertical; }
+
+.btn-modal-action { padding: 12px 28px; font-size: 15px; font-weight: 800; border-radius: 50px; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); }
+.btn-modal-action.btn-confirm { background: linear-gradient(135deg, #0072ff, #00c6ff); color: #fff; border: 1px solid rgba(255,255,255,0.4); flex: 1.5; }
+.btn-modal-action.btn-dismiss { background: rgba(255, 255, 255, 0.12); color: #f8fafc; border: 1px solid rgba(255, 255, 255, 0.25); flex: 1; }
+.btn-modal-action.btn-dismiss:hover { background: rgba(255, 255, 255, 0.25); color: #fff; }
+
+/* CHI TIẾT BÀI VIẾT & HÌNH ẢNH TRONG BÀI */
+.article-content-wrapper { padding: 24px; overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch; }
+.article-header-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+.article-title { font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 12px; font-family: 'Nunito', sans-serif; line-height: 1.3;}
+.article-meta { color: #64748b; font-size: 0.9rem; font-weight: 600; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9; display: flex; flex-wrap: wrap; gap: 15px; align-items: center;}
+.article-text { color: #334155; font-size: 1.05rem; line-height: 1.85; text-align: justify; }
+
+/* KHUNG HÌNH ẢNH KÈM CHÚ THÍCH */
+.article-figure { margin: 8px 0; text-align: center; }
+.article-figure img { width: 100%; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: block; margin: 0 auto; }
+.article-figure figcaption { font-size: 14px; color: #64748b; font-style: italic; margin-top: 8px; margin-bottom: 8px; text-align: center; line-height: 1.4; }
+
+/* VIDEO RESPONSIVE */
+.video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 14px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.video-container iframe, .video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+/* LIKE & BÌNH LUẬN UI */
+.btn-like { background: transparent; border: 1px solid #cbd5e1; padding: 6px 16px; border-radius: 20px; font-weight: 800; color: #475569; cursor: pointer; transition: 0.2s; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
+.btn-like:hover { background: #f1f5f9; }
+.btn-like.liked { color: #ef4444; border-color: #fca5a5; background: #fef2f2; }
+.comment-bubble { background: #f1f5f9; padding: 10px 14px; border-radius: 16px; display: inline-block;}
+.comment-name { font-weight: 800; font-size: 13px; color: #0f172a; margin-bottom: 2px; }
+.comment-text { font-size: 14px; color: #334155; line-height: 1.5; }
+.comment-time { font-size: 11px; color: #94a3b8; }
+.btn-cmt-action { background: transparent; border: none; font-size: 11px; font-weight: 800; color: #64748b; cursor: pointer; padding: 0; margin-right: 12px; transition: 0.2s; }
+.btn-cmt-action:hover { color: #0284c7; text-decoration: underline; }
+.like-stats-box { font-size: 14px; color: #64748b; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; padding: 6px 10px; border-radius: 12px; }
+.like-stats-box:hover { background: #f1f5f9; color: #0f172a; }
+
+/* LIGHTBOX PHÓNG TO ẢNH */
+.lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(6px); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+.lightbox-overlay.active { opacity: 1; visibility: visible; }
+.lightbox-overlay img { max-width: 95%; max-height: 90vh; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); transform: scale(0.85); transition: transform 0.3s ease; }
+.lightbox-overlay.active img { transform: scale(1); }
+.lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 45px; cursor: pointer; font-weight: bold; z-index: 10001; transition: color 0.2s; }
+.lightbox-close:hover { color: #f87171; }
+#detailNewsImg, #detailNewsContent img { cursor: zoom-in; transition: opacity 0.2s ease; }
+#detailNewsImg:hover, #detailNewsContent img:hover { opacity: 0.88; }
+
+@media (max-width: 991px) {
+    .auth-bar { flex-direction: column; text-align: center; gap: 15px; padding: 15px; }
+    .auth-actions { justify-content: center; width: 100%; }
+    .dashboard-header { flex-direction: column; text-align: center; }
+    .article-title { font-size: 1.4rem; }
+    .article-content-wrapper { padding: 18px; }
+}

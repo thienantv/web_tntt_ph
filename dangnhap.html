@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - TNTT Phước Hảo</title>
+    
+    <!-- Khai báo Icon và Font -->
+    <link rel="icon" type="image/jpeg" href="/img/logo_app.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Liên kết file CSS -->
+    <link rel="stylesheet" href="css/dangnhap.css">
+
+    <!-- Firebase SDK & Google Auth -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="logo-container">
+            <img src="/img/logo_app.jpg" onerror="this.src='/img/logo.png'" alt="Logo Phước Hảo">
+        </div>
+        
+        <h2>ĐĂNG NHẬP</h2>
+        <p class="subtitle">TNTT Phước Hảo</p>
+
+        <!-- FORM ĐĂNG NHẬP -->
+        <form id="loginForm" onsubmit="xuLyDangNhap(event)">
+            
+            <div class="input-group">
+                <label for="username">Tên đăng nhập</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user icon-left"></i>
+                    <input type="text" id="username" placeholder="Nhập tên đăng nhập" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Mật khẩu</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock icon-left"></i>
+                    <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+                    <!-- Icon con mắt custom -->
+                    <i class="fa-solid fa-eye toggle-password" id="eyeIcon" onclick="anHienMatKhau()"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập
+            </button>
+
+        </form>
+
+        <div class="divider-login"><span>HOẶC</span></div>
+<!-- Khu vực chứa nút Đăng nhập bằng Google -->
+<div id="googleBtnContainer" style="display: flex; justify-content: center; margin-top: 15px;"></div>
+
+        <a href="trangchu.html" class="back-link">
+            <i class="fa-solid fa-arrow-left-long me-1"></i> Về trang chủ
+        </a>
+    </div>
+
+    <!-- Liên kết file JS -->
+    <script src="js/dangnhap.js"></script>
+</body>
+</html>

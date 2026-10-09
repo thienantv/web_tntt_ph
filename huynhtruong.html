@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách & Lịch Trực Huynh Trưởng - Phước Hảo</title>
+    
+    <link rel="icon" type="image/jpeg" href="/img/logo_app.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- LIÊN KẾT FILE CSS TÁCH RỜI -->
+    <link rel="stylesheet" href="css/huynhtruong.css">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <!-- Thư viện vẽ biểu đồ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+    <!-- THANH ĐIỀU HƯỚNG -->
+    <header class="cls-topbar" id="mainHeader">
+        <div class="topbar-container">
+            <a class="cls-brand" href="trangchu.html">
+                <img src="/img/logo_app.jpg" onerror="this.onerror=null; this.src='/img/logo.png';" alt="Logo Phước Hảo">
+                <span>TNTT PHƯỚC HẢO</span>
+            </a>
+            
+            <button class="mobile-toggle-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="menu-overlay" id="menuOverlay" onclick="toggleMobileMenu()"></div>
+
+            <nav class="cls-nav-menu" id="navMenu">
+                <a href="trangchu.html" class="cls-nav-link">Trang chủ</a>
+                <a href="tintuc.html" class="cls-nav-link">Tin Tức</a>
+                <a href="huynhtruong.html" class="cls-nav-link active">Huynh Trưởng</a>
+                <a href="diemdanh.html" class="cls-nav-link">Điểm Danh</a>
+                <a href="chiadoi.html" class="cls-nav-link">Chia Đội</a>
+                
+                <div class="nav-auth-section d-flex align-items-center">
+                    <a href="dangnhap.html" id="btnGoToLogin" class="btn-login-nav">
+                        <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                    </a>
+                    <div id="userInfoNav" class="d-none align-items-center gap-2">
+                        <img id="userAvatarMini" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Avatar">
+                        <div class="d-flex flex-column text-start" style="line-height: 1.2;">
+                            <span id="userNameDisplay" style="color: #fff; font-weight: 700; font-size: 14px;">Khách</span>
+                            <span id="roleBadge" class="badge bg-secondary" style="font-size: 10px;">Người xem</span>
+                        </div>
+                        <button onclick="xuLyDangXuat()" class="btn-login-nav ms-2" style="background: rgba(239, 68, 68, 0.2); border-color: #ef4444; padding: 0.4rem 0.8rem;" title="Đăng xuất">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Nút Cấu hình Admin -->
+        <div class="auth-actions-top">
+            <button id="adminManageBtn" class="btn-admin-config" style="display:none;" onclick="moModalAdminChiaNhom()">
+                <i class="fa-solid fa-users-gear"></i> Admin: Cấu Hình 4 Nhóm Trực
+            </button>
+        </div>
+
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="chuyenTab('tab-ds', this)"><i class="fa-solid fa-address-book me-1"></i> Danh Sách HT</button>
+            <button class="tab-btn" onclick="chuyenTab('tab-truc', this)"><i class="fa-solid fa-calendar-check me-1"></i> Phân Chia Phiên Trực</button>
+        </div>
+
+        <!-- ================= TAB DANH SÁCH ================= -->
+        <div id="tab-ds" class="view-section active">
+            <h1 class="header-title">Danh Sách Huynh Trưởng Phước Hảo</h1>
+            
+            <!-- ================= TỔNG QUAN THỐNG KÊ ================= -->
+            <div class="stats-overview-container">
+                <!-- 4 Thẻ Card Thống Kê -->
+                <div class="stats-cards-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #e0f2fe; color: #0284c7;"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">TỔNG SỐ HT</span>
+                            <span class="stat-value" id="statTotal">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #fee2e2; color: #dc2626;"><i class="fa-solid fa-user-tie"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">HT CẤP 2</span>
+                            <span class="stat-value" id="statCap2">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #dcfce7; color: #16a34a;"><i class="fa-solid fa-user-check"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">HT CẤP 1</span>
+                            <span class="stat-value" id="statCap1">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: #f3e8ff; color: #9333ea;"><i class="fa-solid fa-user-graduate"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">DỰ TRƯỞNG</span>
+                            <span class="stat-value" id="statDT">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Biểu đồ hình khuyên -->
+                <div class="stat-chart-card">
+                    <h4 class="chart-title">TỶ LỆ CẤP BẬC</h4>
+                    <div class="chart-wrapper">
+                        <canvas id="htChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- THANH CÔNG CỤ: TÌM KIẾM, LỌC, CHUYỂN ĐỔI GIAO DIỆN -->
+            <div class="toolbar-container d-flex flex-wrap gap-3 justify-content-between align-items-center mb-4">
+                <div class="search-box m-0" style="flex: 1; min-width: 250px;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm tên, chức vụ, SĐT...">
+                </div>
+                
+                <div class="d-flex flex-wrap gap-2 align-items-center filter-actions">
+                    <select id="filterCap" class="form-select filter-select" onchange="applyFilters()">
+                        <option value="all">Tất cả các cấp</option>
+                        <option value="Huynh Trưởng Cấp 2">Huynh Trưởng Cấp 2</option>
+                        <option value="Huynh Trưởng Cấp 1">Huynh Trưởng Cấp 1</option>
+                        <option value="Dự Trưởng">Dự Trưởng</option>
+                    </select>
+                    
+                    <select id="filterNamSinh" class="form-select filter-select" onchange="applyFilters()">
+                        <option value="all">Tất cả năm sinh</option>
+                    </select>
+
+                    <div class="view-toggle-btns d-flex">
+                        <button id="btnViewGrid" class="view-btn active" onclick="chuyenCheDoXem('grid')" title="Dạng Thẻ"><i class="fa-solid fa-border-all"></i></button>
+                        <button id="btnViewTable" class="view-btn" onclick="chuyenCheDoXem('table')" title="Dạng Bảng"><i class="fa-solid fa-list-ul"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CHỨA DẠNG GRID (CARD) -->
+            <div class="ht-grid" id="htGrid"></div>
+
+            <!-- CHỨA DẠNG BẢNG (TABLE) -->
+            <div class="table-responsive d-none" id="htTableContainer">
+                <table class="custom-ht-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px; text-align: center;">#</th>
+                            <th style="min-width: 220px;">HỌ TÊN HUYNH TRƯỞNG</th>
+                            <th>CHỨC VỤ</th>
+                            <th>CẤP BẬC</th>
+                            <th style="text-align: center;">NĂM SINH</th>
+                            <th style="text-align: right;">ĐIỆN THOẠI</th>
+                        </tr>
+                    </thead>
+                    <tbody id="htTableBody"></tbody>
+                </table>
+            </div>
+            
+            <div id="noResultMessage" class="text-center mt-5 d-none" style="color: #0d47a1; font-weight: bold;">
+                Không tìm thấy Huynh Trưởng nào phù hợp với bộ lọc!
+            </div>
+
+            <!-- KHU VỰC PHÂN TRANG -->
+            <div id="paginationControls" class="pagination-container"></div>
+        </div>
+
+        <!-- ================= TAB LỊCH TRỰC ================= -->
+        <div id="tab-truc" class="view-section">
+            <h1 class="header-title">Lịch Phân Phiên Trực Năm Phụng Vụ 2025-2026</h1>
+            <div class="duty-wrapper">
+                <div class="week-control-panel">
+                    <div class="control-row">
+                        <div class="control-item" style="flex: 2;">
+                            <i class="fa-solid fa-church"></i>
+                            <select id="liturgicalWeekSelect" onchange="chuyenTuan()"></select>
+                        </div>
+                    </div>
+                    <div class="control-row">
+                        <div class="control-item"><i class="fa-solid fa-users"></i><input type="text" id="currentGroupDisplay" readonly></div>
+                        <div class="control-item"><i class="fa-regular fa-calendar-days"></i><input type="text" id="weekDateRangeDisplay" readonly></div>
+                    </div>
+                </div>
+                <div class="duty-container" id="dutyContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CÁC MODAL (Giữ nguyên) -->
+    <div class="modal-overlay" id="modalDetail" onclick="dongModalById('modalDetail')">
+        <div class="modal-detail-card" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="dongModalById('modalDetail')"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header-banner">
+                <img class="modal-avatar-full" id="modalImg" src="" alt="Avatar">
+            </div>
+            <div class="modal-detail-body">
+                <h2 class="modal-detail-name" id="modalTen">Tên Huynh Trưởng</h2>
+                <div class="modal-info-list">
+                    <div class="modal-info-item"><i class="fa-solid fa-id-badge text-primary"></i><div><strong>Mã HT:</strong> <span id="modalMaHT">Chưa có</span></div></div>
+                    <div class="modal-info-item"><i class="fa-solid fa-briefcase text-success"></i><div><strong>Chức vụ:</strong> <span id="modalChucVu">HT</span></div></div>
+                    <div class="modal-info-item"><i class="fa-solid fa-award text-warning"></i><div><strong>Cấp bậc:</strong> <span id="modalCap">Cấp 1</span></div></div>
+                    <div class="modal-info-item"><i class="fa-solid fa-cake-candles text-danger"></i><div><strong>Ngày sinh:</strong> <span id="modalNgaySinh">Chưa cập nhật</span></div></div>
+                    <div class="modal-info-item"><i class="fa-solid fa-phone text-primary"></i><div><strong>Điện thoại:</strong> <span id="modalSDT">Chưa cập nhật</span></div></div>
+                </div>
+                <button class="btn-modal-action btn-confirm w-100" onclick="dongModalById('modalDetail')"><i class="fa-solid fa-check me-1"></i> Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalDutyPick" onclick="dongModalById('modalDutyPick')">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <h3 id="pickModalTitle" style="color: #38bdf8; text-align: center; margin-bottom: 12px; font-weight: 800;">Phân Công Ca Trực</h3>
+            <div class="member-pick-list" id="memberPickListContainer" style="max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.05); border-radius: 12px; padding: 10px; margin-bottom: 15px; border: 1px solid #cbd5e1;"></div>
+            <input type="text" id="selectedPersonResult" class="form-control" readonly style="width: 100%; padding: 11px; margin-bottom: 15px; border-radius: 12px; background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1;">
+            <div class="d-flex gap-2">
+                <button class="btn-modal-action btn-dismiss flex-fill" onclick="dongModalById('modalDutyPick')" style="background: #e2e8f0; color: #475569;">Hủy</button>
+                <button class="btn-modal-action btn-confirm flex-fill" onclick="luuPhanCongCaTruc()">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalAdminGroups" onclick="dongModalById('modalAdminGroups')">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <h3 style="color: #0d47a1; text-align: center; margin-bottom: 16px; font-weight: 800;">Cấu Hình 4 Nhóm</h3>
+            <select id="adminSelectGroupTab" onchange="taiThongTinNhomAdmin()" style="width: 100%; padding: 11px; border-radius: 12px; background: #f8fafc; color: #1e293b; margin-bottom: 15px; border: 1px solid #cbd5e1;">
+                <option value="1">Nhóm 1</option><option value="2">Nhóm 2</option><option value="3">Nhóm 3</option><option value="4">Nhóm 4</option>
+            </select>
+            <input type="text" id="adminGroupNameInput" placeholder="Tên nhóm..." style="width: 100%; padding: 11px; border-radius: 12px; background: #f8fafc; color: #1e293b; margin-bottom: 15px; border: 1px solid #cbd5e1;">
+            <input type="text" id="adminLeaderNameInput" placeholder="Nhóm trưởng..." style="width: 100%; padding: 11px; border-radius: 12px; background: #f8fafc; color: #1e293b; margin-bottom: 15px; border: 1px solid #cbd5e1;">
+            <div id="adminHTCheckList" style="max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; color: #1e293b;"></div>
+            <div class="d-flex gap-2">
+                <button class="btn-modal-action btn-dismiss flex-fill" onclick="dongModalById('modalAdminGroups')" style="background: #e2e8f0; color: #475569;">Đóng</button>
+                <button class="btn-modal-action btn-confirm flex-fill" onclick="luuThongTinNhomAdmin()">Lưu hệ thống</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GỌI FILE CẤU HÌNH DB CHUNG TRƯỚC TIÊN -->
+    <script src="js/firebase-config.js"></script>
+    <!-- GỌI FILE JS TÁCH RỜI -->
+    <script src="js/huynhtruong.js"></script>
+</body>
+</html>

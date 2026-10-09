@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THIẾU NHI THÁNH THỂ HỌ ĐẠO PHƯỚC HẢO - Trang Chủ</title>
+
+    <link rel="icon" type="image/jpeg" href="/img/logo_app.jpg">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Crimson+Text:wght@600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- LIÊN KẾT FILE CSS TÁCH RỜI -->
+    <link rel="stylesheet" href="css/trangchu.css">
+
+    <!-- FIREBASE SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+
+<body>
+
+    <!-- THANH ĐIỀU HƯỚNG MỚI -->
+    <header class="cls-topbar" id="mainHeader">
+        <div class="topbar-container">
+            <a class="cls-brand" href="trangchu.html">
+                <img src="/img/logo_app.jpg" onerror="this.onerror=null; this.src='/img/logo.png';"
+                    alt="Logo Phước Hảo">
+                <span>TNTT PHƯỚC HẢO</span>
+            </a>
+
+            <button class="mobile-toggle-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Lớp phủ mờ cho mobile -->
+            <div class="menu-overlay" id="menuOverlay" onclick="toggleMobileMenu()"></div>
+
+            <nav class="cls-nav-menu" id="navMenu">
+                <a href="trangchu.html" class="cls-nav-link active">Trang chủ</a>
+                <!-- Xóa 'active' nếu dán vào tintuc.html -->
+                <a href="tintuc.html" class="cls-nav-link">Tin Tức</a>
+                <a href="huynhtruong.html" class="cls-nav-link">Huynh Trưởng</a>
+                <a href="diemdanh.html" class="cls-nav-link">Điểm Danh</a>
+                <a href="chiadoi.html" class="cls-nav-link">Chia Đội</a>
+
+                <!-- KHU VỰC AUTH TRÊN MENU -->
+                <div class="nav-auth-section d-flex align-items-center">
+                    <!-- Hiện khi chưa đăng nhập -->
+                    <a href="dangnhap.html" id="btnGoToLogin" class="btn-login-nav">
+                        <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                    </a>
+
+                    <!-- Hiện khi đã đăng nhập -->
+                    <div id="userInfoNav" class="d-none align-items-center gap-2">
+                        <img id="userAvatarMini" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                            alt="Avatar">
+                        <div class="d-flex flex-column text-start" style="line-height: 1.2;">
+                            <span id="userNameDisplay"
+                                style="color: #fff; font-weight: 700; font-size: 14px;">Khách</span>
+                            <span id="roleBadge" class="badge bg-secondary" style="font-size: 10px;">Người xem</span>
+                        </div>
+                        <!-- Nút Đăng xuất -->
+                        <button onclick="xuLyDangXuat()" class="btn-login-nav ms-2"
+                            style="background: rgba(239, 68, 68, 0.2); border-color: #ef4444; padding: 0.4rem 0.8rem;"
+                            title="Đăng xuất">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content-box">
+            <h1 class="hero-title">THIẾU NHI THÁNH THỂ </br> HỌ ĐẠO PHƯỚC HẢO</h1>
+            <p class="hero-subtitle">"Xin cho con trái tim của Chúa biết cho đi không hề toan tính. Biết cảm thông với
+                người khổ đau cùng khốn. Xin cho con trái tim rộng mở biết yêu thương như là lẽ sống. Biết sẻ chia với
+                người đớn đau lầm than."</p>
+        </div>
+    </section>
+
+    <main class="container py-5">
+
+        <!-- ================= TÍNH NĂNG HỆ THỐNG ================= -->
+        <div class="section-header reveal-on-scroll">
+            <h2>Tính Năng Hệ Thống</h2>
+            <p class="text-muted mt-2">Cổng thông tin & Phân chia phiên trực Huynh Trưởng & Quản lý thiếu nhi</p>
+        </div>
+        <div class="row g-4 justify-content-center mb-4">
+
+            <div class="col-md-6 col-lg-3">
+                <div class="liquid-glass-card reveal-on-scroll delay-1">
+                    <div class="feature-icon"><i class="fa-solid fa-newspaper"></i></div>
+                    <h4 class="fw-bold mb-3" style="color: #0052d4;">Tin Tức & Thông Báo</h4>
+                    <p class="text-muted mb-4">Cập nhật nhanh chóng các thông báo, sự kiện và hình ảnh sinh hoạt mới
+                        nhất của thiếu nhi họ đạo Phước Hảo.</p>
+                    <a href="tintuc.html" class="btn-liquid">Xem Tin Tức</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="liquid-glass-card reveal-on-scroll delay-2">
+                    <div class="feature-icon"><i class="fas fa-user-check"></i></div>
+                    <h4 class="fw-bold mb-3" style="color: #0052d4;">Danh Sách Huynh Trưởng</h4>
+                    <p class="text-muted mb-4">Tra cứu thông tin hồ sơ, cấp bậc, chức vụ, ngày sinh và liên lạc của các
+                        Huynh Trưởng.</p>
+                    <a href="huynhtruong.html" class="btn-liquid">Xem Danh Sách</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="liquid-glass-card reveal-on-scroll delay-3">
+                    <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h4 class="fw-bold mb-3" style="color: #0052d4;">Phiên Trực</h4>
+                    <p class="text-muted mb-4">Hệ thống phân chia phiên trực trong năm phụng vụ của các nhóm trực cách
+                        dễ dàng.</p>
+                    <a href="huynhtruong.html" class="btn-liquid">Xem Phiên Trực</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="liquid-glass-card reveal-on-scroll delay-4">
+                    <div class="feature-icon"><i class="fas fa-clipboard-user"></i></div>
+                    <h4 class="fw-bold mb-3" style="color: #0052d4;">Quản Lý Thiếu Nhi</h4>
+                    <p class="text-muted mb-4">Quản lý danh sách thiếu nhi theo đội, thực hiện điểm danh có mặt/vắng
+                        trực tuyến lên hệ thống.</p>
+                    <a href="diemdanh.html" class="btn-liquid">Điểm Danh Đội</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL QUẢN LÝ BÀI NỔI BẬT DÀNH CHO ADMIN -->
+    <div class="modal-overlay" id="modalFeatured" onclick="dongModalCaiDat()">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <h4 style="font-weight: 800; color: #0f172a; margin-bottom: 5px;"><i
+                    class="fa-solid fa-star text-warning me-2"></i>Chọn 3 Bài Viết Nổi Bật</h4>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">Đánh dấu tích vào tối đa 3 bài viết bạn
+                muốn ghim lên trang chủ.</p>
+
+            <div id="adminPostList"
+                style="max-height: 400px; overflow-y: auto; margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 5px;">
+                <!-- Danh sách bài viết đổ vào đây -->
+            </div>
+
+            <div class="text-end">
+                <button class="btn btn-secondary rounded-pill px-4 me-2 fw-bold"
+                    onclick="dongModalCaiDat()">Hủy</button>
+                <button class="btn btn-primary rounded-pill px-4 fw-bold" onclick="luuCaiDatNoiBat()">Lưu Cài
+                    Đặt</button>
+            </div>
+        </div>
+    </div>
+
+    <footer
+        style="background: linear-gradient(135deg, #0d47a1, #1565c0); color: #fff; padding: 40px 20px 20px; text-align: center; margin-top: 40px; border-radius: 20px 20px 0 0; box-shadow: 0 -4px 15px rgba(0,0,0,0.1);">
+        <h3 style="font-weight: 800; font-size: 22px; margin-bottom: 8px;">TNTT Họ Đạo Phước Hảo</h3>
+        <p style="font-size: 15px; margin-bottom: 24px; color: rgba(255,255,255,0.8);">Giáo Hạt Trà Vinh - Giáo Phận Vĩnh Long</br><br>Địa chỉ: Quốc lộ 53, ấp Hòa Hảo, xã Hưng Mỹ, tỉnh Vĩnh Long</br></p>
+        <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap;">
+            <a href="https://www.facebook.com/share/1Hu8WHwzGe/" target="_blank"
+                style="color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; padding: 10px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; transition: all 0.3s ease;"
+                onmouseover="this.style.background='#1877F2'; this.style.borderColor='#1877F2'; this.style.transform='translateY(-3px)';"
+                onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='translateY(0)';">
+                <i class="fa-brands fa-facebook-f" style="font-size: 16px;"></i> Facebook
+            </a>
+            <a href="https://www.tiktok.com/@tntt_hodaophuochao?_r=1&_t=ZS-99CFsHuVAIS" target="_blank"
+                style="color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; padding: 10px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; transition: all 0.3s ease;"
+                onmouseover="this.style.background='#000000'; this.style.borderColor='#000000'; this.style.transform='translateY(-3px)';"
+                onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='translateY(0)';">
+                <i class="fa-brands fa-tiktok" style="font-size: 16px;"></i> TikTok
+            </a>
+            <!-- <a href="tel:0395800581"
+                style="color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; padding: 10px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; transition: all 0.3s ease;"
+                onmouseover="this.style.background='#059669'; this.style.borderColor='#059669'; this.style.transform='translateY(-3px)';"
+                onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='translateY(0)';">
+                <i class="fa-solid fa-phone" style="font-size: 16px;"></i> 0395800581 (Trưởng: Patriciô Thiên Ân)
+            </a>
+            <a href="tel:0921786312"
+                style="color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; padding: 10px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; transition: all 0.3s ease;"
+                onmouseover="this.style.background='#059669'; this.style.borderColor='#059669'; this.style.transform='translateY(-3px)';"
+                onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.2)'; this.style.transform='translateY(0)';">
+                <i class="fa-solid fa-phone" style="font-size: 16px;"></i> 0921786312 (Phó: Phêrô Hiếu Tâm )
+            </a> -->
+        </div>
+        <div style="border-top: 1px dashed rgba(255,255,255,0.3); width: 100%; max-width: 600px; margin: 0 auto 16px;">
+        </div>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.6); margin: 0;">
+            &copy; 2026 TNTT HỌ ĐẠO PHƯỚC HẢO
+        </p>
+    </footer>
+
+    <!-- LIÊN KẾT FILE JAVASCRIPT TÁCH RỜI -->
+    <script src="js/trangchu.js"></script>
+</body>
+
+</html>
